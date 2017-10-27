@@ -9,10 +9,24 @@ import view.MailHistogramBuilder;
 import view.MailListReader;
 
 public class Kata4 {
+    List<String> lista;
+    Histogram<String> histogram;
     public static void main(String[] args) throws FileNotFoundException, IOException {
+        new Kata4().execute();
+    }
+    private void execute() throws FileNotFoundException, IOException{
+        input();
+        process();
+        output();
+    }
+    private void input() throws FileNotFoundException, IOException{
         String filename="emails.txt";
-        List<String> lista=MailListReader.read(filename);
-        Histogram<String> histogram=MailHistogramBuilder.build(lista);
+        lista=MailListReader.read(filename);
+    }
+    private void process(){
+        histogram=MailHistogramBuilder.build(lista);
+    }
+    private void output(){
         new HistogramDisplay(histogram).execute();
     }
 }
