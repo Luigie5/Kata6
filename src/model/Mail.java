@@ -2,10 +2,16 @@ package model;
 
 public class Mail {
     private final String mail;
-    public Mail(String mail){
+    private final Integer id;
+    public Mail(Integer id,String mail){
         this.mail=mail;
+        this.id=id;
     }
-    public String getDomain(){
-        return mail.split("@")[1];
+    public Integer getId(){
+        return id;
     }
+    public String getMail(){
+        return mail;
+    }
+    
 }

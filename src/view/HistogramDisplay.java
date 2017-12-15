@@ -8,13 +8,15 @@ import org.jfree.chart.JFreeChart;
 import org.jfree.data.category.DefaultCategoryDataset;
 import org.jfree.ui.ApplicationFrame;
 
-public class HistogramDisplay extends ApplicationFrame {
-    private final  Histogram<String> histogram;
-    public HistogramDisplay(Histogram<String> histogram){
+public class HistogramDisplay<T> extends ApplicationFrame {
+    private final  Histogram<T> histogram;
+    private final String ejeX; 
+    public HistogramDisplay(Histogram<T> histogram, String ejeX){
         super("Histograma");
         this.histogram = histogram;
         setContentPane(createPanel());
         pack();
+        this.ejeX = ejeX;
     }
     private JPanel createPanel(){
         ChartPanel panel= new ChartPanel(createChart(createDataset()));
@@ -23,13 +25,13 @@ public class HistogramDisplay extends ApplicationFrame {
     }
     private JFreeChart createChart(DefaultCategoryDataset data){
         JFreeChart chart=ChartFactory.createBarChart("Histograma JFreeChart",
-                "Nombres de dominios","Nº de dominios",data);
+                ejeX,"Nº de dominios",data);
         return chart;
     }
     private DefaultCategoryDataset createDataset(){
         DefaultCategoryDataset data=new DefaultCategoryDataset();
-        for (String key : histogram.keySet()) {
-            data.addValue(histogram.get(key),"",key);
+        for (T key : histogram.keySet()) {
+            data.addValue(histogram.get(key),"",(Comparable)key);
         }
         return data;
         
