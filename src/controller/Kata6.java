@@ -2,17 +2,20 @@ package controller;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.List;
 import view.HistogramDisplay;
 import model.Histogram;
 import model.Mail;
+import model.Person;
+import view.DataBaseList;
 import view.MailHistogramBuilder;
 import view.MailListReader;
 
 public class Kata6 {
     List<String> lista;
     Histogram<String> histogram;
-    public static void main(String[] args) throws FileNotFoundException, IOException {
+    public static void main(String[] args) throws FileNotFoundException, IOException, ClassNotFoundException, SQLException {
         String filename="emails.txt";
         List<Mail> listMail= MailListReader.read(filename);
         MailHistogramBuilder<Mail> builder =new MailHistogramBuilder<>(listMail);
@@ -30,7 +33,15 @@ public class Kata6 {
             }	
 	});	
 	new HistogramDisplay (letters,"Primer Caracter").execute();
-        //new Kata6().execute();
+        List <Person> people = DataBaseList.read();	
+	MailHistogramBuilder<Person> builderPerson= new MailHistogramBuilder<>(people);	
+        Histogram<Character> gender = builderPerson.build(new Attribute<Person,Character>(){	
+            @Override
+            public Character get(Person item){
+                return item.getGender();
+            }
+	});
+	new HistogramDisplay (gender,"Gender").execute();
     }
     private void execute() throws FileNotFoundException, IOException{
         input();
